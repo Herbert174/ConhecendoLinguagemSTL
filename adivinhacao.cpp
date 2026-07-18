@@ -18,6 +18,7 @@ int main(){
 
     bool nao_acertou = true;
     int tentativas = 0;
+    double pontos = 1000.0;
 
     while(nao_acertou){
         tentativas++;
@@ -26,6 +27,9 @@ int main(){
         cout << "Qual o seu chute ";
         cin >> chute;
         cout << "O valor do seu chute e " << chute << endl;
+
+        double pontos_perdidos = abs(chute - NUMERO_SECRETO)/2.0;
+        pontos = pontos - pontos_perdidos;
 
         bool acertou = chute == NUMERO_SECRETO;    //boas praticas colocar a condicional a ser verificada em uma variavel
         bool chutemaior = chute > NUMERO_SECRETO;  //com nome que descreve o que ele representa para utiliza-lo no respectivo
@@ -43,4 +47,7 @@ int main(){
     }
     cout << "Fim de jogo!" << endl;
     cout << "Voce acertou o numero secreto em " << tentativas << " tentativas" << endl;
+    cout.precision(2); //Define o nivel de precisao a ser utilizado na impressão da variavel no proximo cout
+    cout << fixed;     //Formata o valor a ser imprimido no cout  //ex. 956.00 (2 casas depois da , pelo precision)
+    cout << "Sua pontuacao foi de " << pontos << " pontos." << endl;
 }
