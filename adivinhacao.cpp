@@ -13,7 +13,7 @@ int tentativas = 0;
 double pontos = 1000.0;
 bool nao_acertou = true;
 
-bool continuandojogo(int numero_tentativas, bool nao_acertou, int tentativas){
+bool continuandojogo(){
     if(nao_acertou){
         if(tentativas < numero_tentativas){
             return true;
@@ -54,7 +54,7 @@ void iniciandojogo(){
 }
 
 void rodandojogo(int NUMERO_SECRETO){
-    while(continuandojogo(numero_tentativas, nao_acertou, tentativas)){
+    while(continuandojogo()){
         tentativas++;
         int chute;
         cout << "Tentativa " << tentativas << endl;
@@ -77,7 +77,6 @@ void rodandojogo(int NUMERO_SECRETO){
         }else{
             cout << "O seu chute e menor que o numero secreto" << endl;
         }
-        cout << endl;
     }
 }
 
@@ -96,7 +95,7 @@ void finalizandojogo(){
 int main(){
     srand(time(0));
     const int NUMERO_SECRETO = rand() % 100; //É uma convenção declarar constantes sempre em capslock
-    
+
     iniciandojogo();
     rodandojogo(NUMERO_SECRETO);
     finalizandojogo();
