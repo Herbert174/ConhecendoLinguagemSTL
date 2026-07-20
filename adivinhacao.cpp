@@ -1,26 +1,60 @@
 #include <iostream> //biblioteca padrão utilizada para acessar as funções de entrada e saida em c++
+#include <cstdlib> //biblioteca de recursos standart vindos do C
+#include <ctime>   //necessario para usar a funcao time()
 
 using namespace std; //Utilizado para não precisar mais colocar o std:: toda vez que usar um recurso 
                      //de standart 
                      //DE std::cout << "* BEM-VINDOS AO JOGO DE ADIVINHACAO! *" << std::endl;
                      //PARA    cout << "* BEM-VINDOS AO JOGO DE ADIVINHACAO! *" << endl;
 
-int main(){
+char dificuldade;
+int numero_tentativas;
+int tentativas = 0;
+double pontos = 1000.0;
+bool nao_acertou = true;
+
+bool continuandojogo(int numero_tentativas, bool nao_acertou, int tentativas){
+    if(nao_acertou){
+        if(tentativas < numero_tentativas){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    return false;
+}
+
+void iniciandojogo(){
     cout << "**************************************" << endl;
     cout << "* BEM-VINDOS AO JOGO DE ADIVINHACAO! *" << endl;
     cout << "**************************************" << endl;
 
-    const int NUMERO_SECRETO = 19; //É uma convenção declarar constantes sempre em capslock
+    cout << "Escolha o seu nivel de dificuldade"  << endl;
+    cout << "Facil (F), Medio (M) ou Dificil (D)" << endl;
 
-    //cout << "O numero secreto e " << numero_secreto << " nao conte a ninguem" << endl;
-    //sempre que quisermos passar uma variavel no cout quebrar o "" e então passar a variavel entre
-    // << variavel << dessa forma invés de imprimir o nome da variavel será impresso o valor da mesma
+    cin >> dificuldade;
 
-    bool nao_acertou = true;
-    int tentativas = 0;
-    double pontos = 1000.0;
+    switch(dificuldade){
+        case 'F':
+        numero_tentativas = 15;
+        break;
 
-    while(nao_acertou){
+        case 'M':
+        numero_tentativas = 10;
+        break;
+
+        case 'D':
+        numero_tentativas = 5;
+        break;
+
+        default:
+        cout << "Dificuldade invalida" << endl;
+        exit(1);
+    }
+}
+
+void rodandojogo(int NUMERO_SECRETO){
+    while(continuandojogo(numero_tentativas, nao_acertou, tentativas)){
         tentativas++;
         int chute;
         cout << "Tentativa " << tentativas << endl;
@@ -45,9 +79,29 @@ int main(){
         }
         cout << endl;
     }
+}
+
+void finalizandojogo(){
+    if(nao_acertou){
+        cout << "Acabaram as tentativas, voce perdeu, tente novamente" << endl;
+    }else{
     cout << "Fim de jogo!" << endl;
     cout << "Voce acertou o numero secreto em " << tentativas << " tentativas" << endl;
     cout.precision(2); //Define o nivel de precisao a ser utilizado na impressão da variavel no proximo cout
     cout << fixed;     //Formata o valor a ser imprimido no cout  //ex. 956.00 (2 casas depois da , pelo precision)
     cout << "Sua pontuacao foi de " << pontos << " pontos." << endl;
+    }
+}
+
+int main(){
+    srand(time(0));
+    const int NUMERO_SECRETO = rand() % 100; //É uma convenção declarar constantes sempre em capslock
+    
+    iniciandojogo();
+    rodandojogo(NUMERO_SECRETO);
+    finalizandojogo();
+
+    //cout << "O numero secreto e " << numero_secreto << " nao conte a ninguem" << endl;
+    //sempre que quisermos passar uma variavel no cout quebrar o "" e então passar a variavel entre
+    // << variavel << dessa forma invés de imprimir o nome da variavel será impresso o valor da mesma
 }
